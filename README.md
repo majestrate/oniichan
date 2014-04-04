@@ -6,7 +6,9 @@ minimalist imageboard/mediaboard software
 requires: 
 
 * python 3.3
+
 * ffmpeg
+
 * pip
 
 
