@@ -33,6 +33,13 @@ def oniichan_mod_panel():
     else:
         return flask.render_template('mod_login.html')
 
+@app.route('/ib/mod/toggle_tor')
+def oniichan_toggle_tor():
+    if MOD_KEY in flask.session:
+        config.enable_tor = not config.enable_tor
+        flask.flask('tor posting = %s' % config.enable_tor)
+    return flask.redirect('/ib/mod')
+
 @app.route('/ib/mod/regen')
 def oniichan_mod_regen_boards():
     if MOD_KEY in flask.session:
@@ -164,8 +171,11 @@ def oniichan_post(board_name):
 
     headers = flask.request.headers
     desthash = None
-    if I2P_HEADER in headers:
+    if I2P_HEADER in headers and util.is_from_i2p(flask.request.remote_addr):
         desthash = headers[I2P_HEADER]
+    
+    if config.enable_tor is False and desthash is None:
+        return error('posting from tor disabled temporarily')
 
     # check for board
     with db.open() as session:

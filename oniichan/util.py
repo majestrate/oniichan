@@ -33,3 +33,6 @@ def hash_func(data, salt):
         salt = salt.encode('utf-8')
     h.update(salt)
     return h.hexdigest()
+
+def is_from_i2p(addr):
+    return addr is not '127.0.0.1'
