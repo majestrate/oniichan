@@ -11,9 +11,13 @@ requires:
 
 * pip
 
+----
 
     sudo apt-get install ffmpeg
+
     ./activate.sh
+
     pip install -r requirements.txt
+
     ./run.py
 
