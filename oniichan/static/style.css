@@ -1,0 +1,69 @@
+body, .thread, .post, pre#footer{
+    background: #333;
+    color: #ddd;
+}
+
+pre#footer {
+    border-color: #333;
+}
+
+.row {
+    padding: 5px;
+}
+
+.post, .post_text {
+    border-radius: 7px;
+    margin: 3px;
+    padding: 10px;
+}
+
+.post, input, textarea {
+    background: #444;
+}
+
+.icon {
+    padding: 10px;
+    margin: 10px;
+}
+
+.post_name, .post_date, post_file {
+    color: #d3d3d3;
+}
+
+.post_text {
+    background: #353535;
+}
+
+.post_subject {
+    color: #970293;
+}
+
+.post_id {
+}
+
+
+input, textarea {
+    border-radius: 5px;
+}
+
+table {
+    padding: 5px;
+    border: #5523a4;
+}
+
+td {
+    padding: 3px;
+}
+
+tr {
+    padding: 5px;
+}
+
+pre {
+    background: url('/static/code.png'), rgba(0,0,0,0.25);
+    margin: 10px;
+    color: rgba(176, 80, 19, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    border-color: #343434;
+}

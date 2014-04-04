@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block page_body %}
+<!-- begin thread container -->
+{% include "post.html" %}
+{{ op.render() }}
+<!-- begin replies -->
+{% for post in replies %}
+{{ post.render() }}
+{% endfor %}
+<!-- end posts -->
+<!-- begin end container -->
+{% endblock %}
+
+

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block page_body %}
+{% include "post.html" %}
+{% for thread in threads %}
+<hr/>
+<section class="thread">
+  <a href="/{{board.name}}/thread-{{thread['op'].post_id}}.html">reply</a>
+  {{ thread['op'].render() }}
+  {% for post in thread['replies'] %}
+      {{ post.render() }}
+  {% endfor %}
+</section>
+{% endfor %}
+<hr/>
+{% endblock %}

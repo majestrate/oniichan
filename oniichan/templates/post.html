@@ -1,0 +1,30 @@
+<section class="container">
+  <form action="/ib/post/{{board.name}}" method="POST" enctype="multipart/form-data">
+    <table>
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><input type="text" name="email"></td>
+        </tr>
+        <tr>
+          <td>Subject</td>
+          <td><input type="text" name="subject"></td>
+          <td><input type="submit" value="post"/></td>
+        </tr>
+        <tr>
+          <td>Post</td>
+          <td><textarea name="post"></textarea></td>
+        </tr>
+        <tr>
+          <td>Audio</td>
+          <td><input type="file" name="audio" /></td>
+        </tr>
+        <input type="hidden" name="reply" value="{{reply}}"/>
+      </tbody>
+    </table>
+  </form>
+</section>

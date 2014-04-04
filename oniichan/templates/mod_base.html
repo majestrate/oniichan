@@ -1,0 +1,22 @@
+<html>
+<head>
+<style href="/mod_style.css" type="text/css"></style>
+<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<section>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for msg in messages %}
+  <section>
+    {{msg}}
+  </section>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</section>
+<section>
+  {% block content %}{% endblock %}
+</section>
+</body>
+</html>

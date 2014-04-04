@@ -1,0 +1,47 @@
+{% extends "mod_base.html" %}
+{% block title %}mod panel{% endblock %}
+{% block content %}
+<a href="/ib/mod/logout">log out</a>
+<a href="/ib/mod/regen">regen</a>
+<section>
+  <section>
+    <section>
+      Create New Mod
+    </section>
+    <section>
+      <form action="/ib/mod/create_mod" method="POST">
+        <section>
+          Username <input type="text" name="username" />
+        </section>
+        <section>
+          Password <input type="password" name="password" />
+        </section>
+        <section>
+          <input type="submit" value="create" />
+        </section>
+      </form>
+    </section>
+  </section>
+  <section>
+    <section>
+      Create New Board
+    </section>
+    <section>
+      <form action="/ib/mod/new_board" method="POST">
+        <section>
+          name <input type="text" name="name" />
+        </section>
+        <section>
+          long name <input type="text" name="long_name" />
+        </section>
+        <section>
+          description <input type="text" name="description" />
+        </section>
+        <section>
+          <input type="submit" value="create" />
+        </section>
+      </form>
+    </section>
+  </section>
+</section>
+{% endblock %}

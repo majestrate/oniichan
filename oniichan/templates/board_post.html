@@ -1,0 +1,37 @@
+{% autoescape true %}
+<section class="row post">
+  <table>
+    <tbody>
+      <tr>
+        <td class="icon">
+          {% if post.is_i2p() %}
+          <img src="/static/i2p.png" title="i2prick"></img>
+          {% else %}
+          <img src="/static/onion.png" title="onionhead"></img>
+          {% endif %}
+        </td>
+        <td class="post_name">
+          {% if post.email %}
+          <a href="mailto:{{post.email}}">{{post.name}}</a>
+          {% else %}
+          {{post.name}}
+          {% endif %}
+        </td>
+        <td class="post_subject">{% if post.subject %}<b>{{post.subject}}</b>{% endif %}</td>
+        <td class="post_date"><i>{{post.getDate()}}</i></td>
+        <td class="post_id" id="post_{{post.post_id}}"><a href="#post_{{post.post_id}}">&gt;&gt;{{post.post_id}}</a></td>
+        {% if post.has_file() %}
+        <td class="post_file">
+          <a href="{{post.get_file_url()}}">♪ {{post.fname}} ♪</a>
+        </td>
+      {% endif %}
+      </tr>
+    </tbody>
+  </table>
+{% endautoescape %}
+  <section class="post_text">
+{% autoescape false %}
+    {{text}}
+{% endautoescape %}
+  </section>
+</section>

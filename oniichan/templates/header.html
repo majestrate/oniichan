@@ -1,0 +1,24 @@
+<header class="col-md-8">
+  <table>
+    <tbody>
+      <tr>
+        {% if 'boards' in header %}
+        {% for b in header['boards'] %}
+        <td><a href="/{{b.name}}/">{{b.long_name}}</a></td>
+        {% endfor %}
+        {% endif %}
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <tbody>
+      <tr>
+        {% if 'pages' in header %}
+        {% for page in header['pages'] %}
+        <td><a href="/{{board.name}}/{{page}}.html">page {{page}}</a></td>
+        {% endfor %}
+        {% endif %}
+      </tr>
+    </tbody>
+  </table>
+</header>
