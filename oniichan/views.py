@@ -187,8 +187,9 @@ def error(msg):
     return flask.render_template('error.html', msg=msg, header={})
 
 
-@app.route('/ib/post/<board_name>', methods=['POST'])
+
 @ratelimit
+@app.route('/ib/post/<board_name>', methods=['POST'])
 def oniichan_post(board_name):
 
     headers = flask.request.headers
