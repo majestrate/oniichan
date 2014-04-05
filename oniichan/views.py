@@ -173,7 +173,6 @@ def error(msg):
 
 
 
-@ratelimit
 @app.route('/ib/post/<board_name>', methods=['POST'])
 def oniichan_post(board_name):
 
