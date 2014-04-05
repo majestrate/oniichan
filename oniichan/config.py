@@ -5,6 +5,7 @@ board_base_dir = '/srv/www/oniichan/'
 media_dir = '/srv/www/oniichan/media/'
 enable_tor = True
 db_url = 'sqlite:////var/lib/oniichan/oniichan.db3'
+post_ratelimit = 30
 
 CSRF_ENABLED = True
 SECRET_KEY = os.urandom(64)
