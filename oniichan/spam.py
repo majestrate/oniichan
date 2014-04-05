@@ -11,12 +11,15 @@ def get_spam_strings():
 def data_is_spam(data):
     # TODO: implement
     if len(data) > 64:
-        return False
+        return True
     return False
 
 def post_is_spam(data):
     if len(data) > 4096:
         return True
+    for word in data.split():
+        if len(word) > 32 and '://' not in word:
+            return True
     for spam in get_spam_strings():
         if spam in data:
             return True
