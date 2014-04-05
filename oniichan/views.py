@@ -14,6 +14,10 @@ import string
 MOD_KEY = 'mod_username'
 I2P_HEADER = 'X-I2P-DestHash'
 
+@app.route('/ib/')
+def oniichan_kitteh_face():
+    return ':3'
+
 @app.route('/ib/mod', methods=['GET','POST'])
 def oniichan_mod_panel():
     if flask.request.method == 'POST':
