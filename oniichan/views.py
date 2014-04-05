@@ -186,11 +186,12 @@ def oniichan_post(board_name):
 
     if RATELIMIT_KEY not in flask.session:
         flask.session[RATELIMIT_KEY] = util.now()
-    lastpost = flask.session[RATELIMIT_KEY]
-    flask.session[RATELIMIT_KEY] = util.now()
-    app.logger.debug('lastpost = %d ' % lastpost)
-    if util.now() - lastpost < config.post_ratelimit:
-        return error('flood')
+    else:
+        lastpost = flask.session[RATELIMIT_KEY]
+        flask.session[RATELIMIT_KEY] = util.now()
+        app.logger.debug('lastpost = %d ' % lastpost)
+        if util.now() - lastpost < config.post_ratelimit:
+            return error('flood')
 
 
     # check for board
