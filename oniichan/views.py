@@ -24,6 +24,7 @@ def ratelimit(f):
             flask.session[RATELIMIT_KEY] = util.now()
         lastpost = flask.session[RATELIMIT_KEY]
         flask.session[RATELIMIT_KEY] = util.now()
+        app.logger.debug('lastpost = %d ' % lastpost)
         if util.now() - lastpost < config.post_ratelimit:
             return error('your post looks like spam')
         else:
