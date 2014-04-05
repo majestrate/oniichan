@@ -16,21 +16,6 @@ MOD_KEY = 'mod_username'
 RATELIMIT_KEY = 'ratelimit'
 I2P_HEADER = 'X-I2P-DestHash'
 
-
-@wraps
-def ratelimit(f):
-    def func(*args,**kwds):
-        if RATELIMIT_KEY not in flask.session:
-            flask.session[RATELIMIT_KEY] = util.now()
-        lastpost = flask.session[RATELIMIT_KEY]
-        flask.session[RATELIMIT_KEY] = util.now()
-        app.logger.debug('lastpost = %d ' % lastpost)
-        if util.now() - lastpost < config.post_ratelimit:
-            return error('your post looks like spam')
-        else:
-            return f(*args,**kwds)
-    return func
-
 @app.route('/ib/')
 def oniichan_kitteh_face():
     return ':3'
@@ -199,6 +184,15 @@ def oniichan_post(board_name):
     
     if config.enable_tor is False and desthash is None:
         return error('posting from tor disabled temporarily')
+
+    if RATELIMIT_KEY not in flask.session:
+        flask.session[RATELIMIT_KEY] = util.now()
+    lastpost = flask.session[RATELIMIT_KEY]
+    flask.session[RATELIMIT_KEY] = util.now()
+    app.logger.debug('lastpost = %d ' % lastpost)
+    if util.now() - lastpost < config.post_ratelimit:
+        return error('flood')
+
 
     # check for board
     with db.open() as session:
