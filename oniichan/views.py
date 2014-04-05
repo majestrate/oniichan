@@ -7,12 +7,28 @@ from oniichan import util
 from oniichan.lib import audio
 import flask
 from werkzeug.utils import secure_filename
+from functools import wraps
 import io
 import os
 import string
 
 MOD_KEY = 'mod_username'
+RATELIMIT_KEY = 'ratelimit'
 I2P_HEADER = 'X-I2P-DestHash'
+
+
+@wraps
+def ratelimit(f):
+    def func(*args,**kwds):
+        if RATELIMIT_KEY not in flask.session:
+            flask.session[RATELIMIT_KEY] = util.now()
+        lastpost = flask.session[RATELIMIT_KEY]
+        if util.now() - lastpost > config.post_ratelimit:
+            return error('your post looks like spam')
+        else:
+            flask.session[RATELIMIT_KEY] = util.now()
+            return f(*args,**kwds)
+    return func
 
 @app.route('/ib/')
 def oniichan_kitteh_face():
@@ -171,6 +187,7 @@ def error(msg):
 
 
 @app.route('/ib/post/<board_name>', methods=['POST'])
+@ratelimit
 def oniichan_post(board_name):
 
     headers = flask.request.headers
@@ -340,5 +357,3 @@ def regen_boards(boards=None):
             index_html = os.path.join(config.board_base_dir,board.name,'index.html')
             if not os.path.exists(index_html):
                 os.symlink(board.get_fname_for_page(0), index_html)
-
-

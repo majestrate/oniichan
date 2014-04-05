@@ -10,7 +10,7 @@ from contextlib import contextmanager
 import operator
 import os
 
-_engine = create_engine('sqlite:////var/lib/oniichan/oniichan.db3')
+_engine = create_engine(config.db_url)
 
 make_session = sessionmaker(bind=_engine)
 
