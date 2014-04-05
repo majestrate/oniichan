@@ -23,11 +23,10 @@ def ratelimit(f):
         if RATELIMIT_KEY not in flask.session:
             flask.session[RATELIMIT_KEY] = util.now()
         lastpost = flask.session[RATELIMIT_KEY]
+        flask.session[RATELIMIT_KEY] = util.now()
         if util.now() - lastpost < config.post_ratelimit:
-            flask.session[RATELIMIT_KEY] = util.now()
             return error('your post looks like spam')
         else:
-            flask.session[RATELIMIT_KEY] = util.now()
             return f(*args,**kwds)
     return func
 
