@@ -1,3 +1,3 @@
 from oniichan import app
 
-app.run('0.0.0.0',debug=False)
+app.run('0.0.0.0',debug=True)
