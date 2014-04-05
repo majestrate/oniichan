@@ -99,7 +99,7 @@ class session:
 
     def delete_post(self, post):
         if post.reply_id == 0:
-            sess.execute('DELETE FROM posts WHERE reply_id=:post_id',{'post_id':post.post_id})
+            self.sess.execute('DELETE FROM posts WHERE reply_id=:post_id',{'post_id':post.post_id})
         #sess.execute('DELETE FROM posts WHERE post_id=:post_id',{'post_id':post.post_id})
         self.sess.delete(post)
             
