@@ -37,7 +37,7 @@ def oniichan_mod_panel():
 def oniichan_toggle_tor():
     if MOD_KEY in flask.session:
         config.enable_tor = not config.enable_tor
-        flask.flask('tor posting = %s' % config.enable_tor)
+        flask.flash('tor posting = %s' % config.enable_tor)
     return flask.redirect('/ib/mod')
 
 @app.route('/ib/mod/regen')
