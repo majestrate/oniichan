@@ -27,7 +27,8 @@ def detect(data, is_post=False):
     """
     detect spam from string
     """
-    if is_post and post_is_spam(data):
-        raise DetectedSpam()
+    if is_post:
+        if post_is_spam(data):
+            raise DetectedSpam()
     elif data_is_spam(data):
         raise DetectedSpam()

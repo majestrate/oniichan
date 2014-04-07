@@ -228,7 +228,7 @@ def oniichan_post(board_name):
         post_text = form['post'].strip()
         if len(post_text) == 0:
             return error('no post text')
-        spam.detect(post_text,True)
+        spam.detect(post_text,is_post=True)
 
         if 'name' not in form:
             return error('no name?')
