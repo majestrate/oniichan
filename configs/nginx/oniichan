@@ -1,0 +1,20 @@
+
+
+server {
+
+       listen 80;
+
+       server_name yoursite.onion;
+
+       location / {
+                root /var/www/oniichan/boards;
+       }
+       
+       location /media/ {
+                alias /var/www/oniichan/media;
+       }
+
+       location /ib/ {
+                proxy_pass http://127.0.0.1:5000;
+       }
+}
