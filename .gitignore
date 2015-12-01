@@ -61,3 +61,4 @@ docs/_build/
 boards/*
 media/*
 *.db3
+prod/*
