@@ -54,3 +54,9 @@ docs/_build/
 
 # emacs
 *~
+
+
+# project specific
+
+boards/*
+media/*

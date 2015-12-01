@@ -6,6 +6,7 @@ from oniichan import spam
 from oniichan import util
 from oniichan.lib import audio
 import flask
+from flask import render_template as template
 from werkzeug.utils import secure_filename
 from functools import wraps
 import io
@@ -16,12 +17,9 @@ MOD_KEY = 'mod_username'
 RATELIMIT_KEY = 'ratelimit'
 I2P_HEADER = 'X-I2P-DestHash'
 
-@app.route('/ib/')
-def oniichan_kitteh_face():
-    return ':3'
-
 @app.route('/ib/mod', methods=['GET','POST'])
 def oniichan_mod_panel():
+    
     if flask.request.method == 'POST':
         form = flask.request.form
         if 'username' in form and 'password' in form:
@@ -30,15 +28,30 @@ def oniichan_mod_panel():
 
             with db.open() as session:
                 if session.check_mod_login(username, password):
-                    flask.session[MOD_KEY] = username
+                        flask.session[MOD_KEY] = username
                 else:
                     flask.flash('incorrect login')
+
         return flask.redirect('/ib/mod')
     elif MOD_KEY in flask.session:
-        return flask.render_template('mod_panel.html')
+        return template('mod_panel.html')
     else:
-        return flask.render_template('mod_login.html')
+        return template('mod_login.html')
 
+@app.route('/ib/')
+def oniichan_setup():
+    """
+    show setup page or ':3' if set up 
+    """
+    with db.open() as session:
+        if not session.has_mod_users():
+            return template('setup.html')
+    return flask.redirect('/ib/mod')
+
+@app.route('/')
+def oniichan_index():
+    return flask.redirect('/ib/')
+        
 @app.route('/ib/mod/toggle_tor')
 def oniichan_toggle_tor():
     if MOD_KEY in flask.session:
@@ -62,7 +75,11 @@ def oniichan_mod_logout():
 
 @app.route('/ib/mod/create_mod', methods=['POST'])
 def oniichan_mod_create():
-    if MOD_KEY in flask.session:
+    has_mods = True
+    with db.open() as session:
+        has_mods = session.has_mod_users()
+            
+    if MOD_KEY in flask.session or not has_mods:
         form = flask.request.form
         if 'username' in form and 'password' in form:
             username = form['username']
@@ -83,7 +100,10 @@ def oniichan_mod_create():
                     
         else:
             flask.flash('no username/password provided')
-    return flask.redirect('/ib/mod')
+    url = '/ib/'
+    if has_mods:
+        url += 'mod'
+    return flask.redirect(url)
 
 @app.route('/ib/mod/new_board', methods=['POST'])
 def oniichan_mod_new_board():
@@ -129,24 +149,29 @@ def oniichan_mod_new_board():
 
     return flask.redirect('/ib/mod')
 
-@app.route('/ib/mod/delete_board/<name>')
-def oniichan_del_board(name):
+@app.route('/ib/mod/del_board', methods=["POST"])
+def oniichan_del_board():
     if MOD_KEY in flask.session:
-        app.logger.info('%s deletes board %s' % (flask.session[MOD_KEY], name))
-        with db.open() as session:
-            board = session.get_board_by_name(name)
-            if board is None:
-                flask.flash('no such board')
-            else:
-                board_dir = board.get_dir()
-                session.delete_board(board)
-                session.commit()
-                app.logger.debug('recursive delete %s' % board_dir)
-                util.recursive_delete(board_dir)
-                flask.flash('board deleted')
+        form = flask.request.form
+        if 'name' in form:
+            name = form['name']
+            app.logger.info('%s deletes board %s' % (flask.session[MOD_KEY], name))
+            with db.open() as session:
+                board = session.get_board_by_name(name)
+                if board is None:
+                    flask.flash('no such board')
+                else:
+                    board_dir = board.get_dir()
+                    app.logger.debug('recursive delete %s' % board_dir)
+                    util.recursive_delete(board_dir)
+                    session.delete_board(board)
+                    session.commit()
+                    flask.flash('board deleted')
+        else:
+            flask.flash('no board specified')
     return flask.redirect('/ib/mod')
 
-@app.route('/ib/mod/delete_post/<board_name>/<int:post_id>')
+@app.route('/ib/mod/del_post/<board_name>/<int:post_id>')
 def oniichan_mod_delete(board_name, post_id):
     if MOD_KEY in flask.session:
         with db.open() as session:
@@ -169,7 +194,7 @@ def oniichan_mod_delete(board_name, post_id):
 
 def error(msg):
     app.logger.info('error: %s' % msg)
-    return flask.render_template('error.html', msg=msg, header={})
+    return template('error.html', msg=msg, header={})
 
 
 

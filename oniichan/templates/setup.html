@@ -1,0 +1,13 @@
+{% extends "mod_base.html" %}
+{% block title %}first time setup{% endblock %}
+{% block content %}
+<form action="/ib/mod/create_mod" method="POST">
+  <label for="username">username</label>
+  <input name="username"></input>
+  <br />
+  <label for="username">password</label>
+  <input name="password" type="password"></input>
+  <br />
+  <input type="submit" value="create first moderator"></input>
+</form>
+{% endblock %}

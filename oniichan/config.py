@@ -1,10 +1,11 @@
 import os
 
-template_paths = ['/var/lib/oniichan/templates/']
-board_base_dir = '/srv/www/oniichan/'
-media_dir = '/srv/www/oniichan/media/'
+_root = os.path.abspath(os.getcwd())
+board_base_dir = os.path.join(_root, "boards")
+media_dir = os.path.join(_root, "media")
+template_dirs = [ os.path.join(_root, "oniichan", "templates") ]
 enable_tor = True
-db_url = 'sqlite:////var/lib/oniichan/oniichan.db3'
+db_url = 'sqlite:///oniichan.db3'
 post_ratelimit = 30
 
 CSRF_ENABLED = True

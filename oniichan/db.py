@@ -37,6 +37,12 @@ class session:
         #TODO: implement
         return []
 
+    def has_mod_users(self):
+        """
+        return true if we have moderators in our database
+        """
+        return self.sess.query(ModUser).count() > 0
+        
     def get_all_board_names(self):
         """
         return a list of all boards with their short names

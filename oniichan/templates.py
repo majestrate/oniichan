@@ -3,7 +3,7 @@ from oniichan import config
 import markdown
 import html
 
-_env = Environment(loader=FileSystemLoader(config.template_paths),extensions=['jinja2.ext.autoescape'])
+_env = Environment(loader=FileSystemLoader(searchpath=config.template_dirs),extensions=['jinja2.ext.autoescape'])
 
 
 def get(name):
